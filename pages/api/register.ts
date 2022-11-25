@@ -15,7 +15,7 @@ export default async function handler(
         message: 'This email address is already taken. Please try another one'
       })
     } else {
-      const user = await userRepository.createUser(req.body) as any
+      const user = await userRepository.createUser(req.body) as IUser
       console.log(user)
       res.status(200).json(user)
 

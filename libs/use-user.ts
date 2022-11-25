@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { IUser } from './../models/user.model'
+import type { IUser } from './../models/user.model'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 

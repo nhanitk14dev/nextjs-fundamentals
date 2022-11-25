@@ -6,7 +6,7 @@
 */
 
 import type { IronSessionOptions } from 'iron-session'
-import { IUser } from '../models'
+import type { IUser } from '../models'
 
 export const sessionOptions: IronSessionOptions = {
   password: process.env.NEXT_PUBLIC_COOKIE_PASSWORD as string, //complex_password_at_least_32_characters_long
