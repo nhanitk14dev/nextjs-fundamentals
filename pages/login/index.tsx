@@ -2,33 +2,29 @@
 import formStyles from '../../components/Form.module.scss';
 import { validateLoginForm } from '../../schemas';
 import { useForm } from 'react-hook-form';
-import { userService } from '../../services';
 import Link from '../../components/Link';
 import btnStyles from '../../components/Button.module.scss';
 import { useRouter } from 'next/router'
-import type { IUser, LoginTypes } from '../../models';
+import type { LoginTypes } from '../../models';
+import axios from 'axios';
 
-type TypeProps = {
-  users: IUser[]
-}
-
-const Login = ({ users = [] }: TypeProps) => {
+const Login = () => {
 
   const router = useRouter();
-
   const { register, handleSubmit, formState: { errors } } = useForm < LoginTypes > (validateLoginForm);
-  async function onSubmit({ email, password }: LoginTypes) {
-    const isExistingUser = userService.findUserByEmail({ users, email });
-    if (!isExistingUser) {
-      alert('This email does not exist in system. Please try another')
-      return;
-    }
 
-    return await userService.logIn({ email, password })
-      .then(() => { alert('Login Successfully !!') })
-      .then(() => router.push('/users'))
-      .catch((error) => alert(error));
-
+  async function onSubmit(form: LoginTypes) {
+    return await axios.post('/api/login', form)
+      .then((res) => {
+        const user = res.data
+        if (user?.message) {
+          alert(user.message)
+        } else {
+          alert('Login Successfully !!')
+          router.push('/users')
+        }
+      })
+      .catch((error) => console.log(error.message))
   }
 
   return (
@@ -57,14 +53,3 @@ const Login = ({ users = [] }: TypeProps) => {
 }
 
 export default Login;
-
-export async function getStaticProps() {
-  // function directly in `getStaticProps`
-  const users = await userService.getUsers();
-  // will receive `posts` as a prop at build time
-  return {
-    props: {
-      users,
-    },
-  }
-}

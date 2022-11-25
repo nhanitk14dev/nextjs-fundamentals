@@ -1,13 +1,16 @@
+/* 
+  Use service for external API 
+*/
+
 import axios from 'axios'
-import { SignUpFormTypes, LoginTypes } from '../models'
-import { IUser } from './../models/user.model'
+import type { SignUpFormTypes, LoginTypes } from '../models'
+import type { IUser } from './../models/user.model'
 const publicApiUrl = `${process.env.NEXT_PUBLIC_API_URL}`
 const baseServerApi = `${process.env.NEXT_PUBLIC_SERVER_API_URL}`
 
 export const userService = {
   signUp,
   logIn,
-  logout,
   getUsers,
   checkAuthInBackend,
   createUserInBackend,
@@ -58,9 +61,4 @@ function findUserByEmail({ users, email }: FindUserType) {
   }
 
   throw 'Users is not array'
-}
-
-
-function logout() {
-  
 }

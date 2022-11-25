@@ -3,35 +3,23 @@ import formStyles from '../../components/Form.module.scss';
 import { useRouter } from 'next/router';
 import { validateSignUpForm } from '../../schemas';
 import { useForm } from 'react-hook-form';
-import { userService } from '../../services';
 import btnStyles from '../../components/Button.module.scss';
-import type { IUser, SignUpFormTypes } from '../../models';
+import type { SignUpFormTypes } from '../../models';
+import axios from 'axios';
 
-type TypeProps = {
-  users: IUser[]
-}
-
-const SignUp = ({ users = [] }: TypeProps) => {
-  // get functions to build form with useForm() hook
+const SignUp = () => {
   const { register, handleSubmit, formState: { errors } } = useForm < SignUpFormTypes > (validateSignUpForm);
   const router = useRouter();
 
-  function onSubmit(form: SignUpFormTypes) {
-    const email = form.email;
-    const isExistingUser = userService.findUserByEmail({ users, email });
-    if (isExistingUser) {
-      alert('This email address is already taken. Please try another one')
-      return;
-    }
-
-    return userService.signUp(form)
-      .then((res) => {
-        // todo: handle alert component
-        console.log(res.data)
-        alert('Add new user successfully');
-        router.push('/login')
+  async function onSubmit(form: SignUpFormTypes) {
+    return await axios.post('/api/register', form)
+      .then(res => {
+        if (res.data) {
+          alert('Add new user successfully');
+          router.push('/login')
+        }
       })
-      .catch((error) => console.log(error))
+      .catch(error => console.log(error))
   }
 
   return (
@@ -62,14 +50,3 @@ const SignUp = ({ users = [] }: TypeProps) => {
 }
 
 export default SignUp;
-
-// https://nextjs.org/docs/basic-features/data-fetching/get-static-props
-export async function getStaticProps() {
-  // function directly in `getStaticProps`
-  const users = await userService.getUsers();
-  return {
-    props: {
-      users,
-    },
-  }
-}

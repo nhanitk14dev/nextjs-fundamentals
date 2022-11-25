@@ -2,10 +2,11 @@ import styles from './header/Header.module.scss'
 import Link from './Link'
 import useUser from '../libs/use-user'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 const NavBar = () => {
 
-  const { user, mutateUser } = useUser({ redirectTo: '/login' })
+  const { user, mutateUser } = useUser() // check user is authenticated
   const router = useRouter()
 
   return (
@@ -31,16 +32,12 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-              <a className={styles.navLink} onClick={() => router.push('/login')}>
-                  Logout
-                </a>
-
-                {/* todo: fix later <a className={styles.navLink} onClick={async () => {
-                  mutateUser(await fetch('/api/logout'), false);
+              <a className={styles.navLink} onClick={async () => {
+                  mutateUser(await axios.post('/api/logout'), false);
                   router.push('/login')
                 }}>
                   Logout
-                </a> */}
+                </a>
               </li>
             </>
           )}

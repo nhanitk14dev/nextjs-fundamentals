@@ -24,3 +24,7 @@ a {
     background: black;
   }
 }
+
+.invalid-feedback {
+  color: red;
+}
