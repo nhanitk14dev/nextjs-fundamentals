@@ -7,7 +7,6 @@ import type { IUser} from '../../models';
 import { UserPropDefault} from '../../models';
 
 function logoutRoute(req: NextApiRequest, res: NextApiResponse<IUser>) {
-  console.log(UserPropDefault)
   req.session.destroy()
   res.json(UserPropDefault)
 }

@@ -5,6 +5,7 @@ export interface IUser {
     name?: string;
     address?: string;
     token?: string;
+    confirmPassword?: string;
     isLoggedIn?: boolean
 }
 

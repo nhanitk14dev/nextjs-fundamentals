@@ -1,0 +1,38 @@
+.navbar {
+  opacity: 0.8;
+  margin-bottom: 0;
+  transition: all 0.2s ease-out;
+  padding: 10px 0;
+  height: 100px;
+  background: linear-gradient(#131213, #121112);
+  color: #fff;
+}
+
+.navbarContainer {
+  position: relative;
+}
+
+.navMenu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+
+}
+
+.navLink {
+  font-size: 14px;
+  text-transform: capitalize;
+  transition: all 0.2s ease-out;
+  font-size: 30px;
+  padding: 10px 25px;
+  cursor: pointer;
+
+  &:hover {
+    color: red;
+    height: 2px;
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

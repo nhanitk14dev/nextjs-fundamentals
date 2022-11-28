@@ -1,6 +1,6 @@
-import styles from './header/Header.module.scss'
-import Link from './Link'
-import useUser from '../libs/use-user'
+import styles from './Nav.module.scss'
+import Link from '../Link'
+import useUser from '../../libs/use-user'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 
@@ -31,8 +31,14 @@ const NavBar = () => {
                   <a className={styles.navLink}>Profile</a>
                 </Link>
               </li>
+              <li>Hi, {user.name}</li>
               <li>
-              <a className={styles.navLink} onClick={async () => {
+                <a className={styles.navLink} onClick={async () => {
+                  // tell all SWRs with this key to revalidate
+                  // updates the local data immediately
+                  // pass a promise api/logout to destroy session, and return IUser as value null default
+                  // https://swr.vercel.app/docs/mutation
+                  // Example: https://github.com/vvo/iron-session/blob/main/examples/next.js-typescript/components/Header.tsx
                   mutateUser(await axios.post('/api/logout'), false);
                   router.push('/login')
                 }}>
