@@ -5,7 +5,6 @@
 import * as fs from 'fs'
 import database from './db.json'
 import type { LoginTypes } from './../models/user.model'
-import type { IUser } from './../models/user.model'
 
 export const userRepository = {
   getAll: () => database.users,

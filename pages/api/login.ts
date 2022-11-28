@@ -5,7 +5,6 @@ import type { IUser } from '../../models/user.model'
 import { userRepository } from './../../libs/user-repository'
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password } = req.body
 
   try {
     const user = userRepository.checkAuth(req.body) as IUser
@@ -14,15 +13,14 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     if (user) {
       req.session.user = user
       await req.session.save()
-      res.status(200).json(user)
-      res.json({ email, password })
+      return res.status(200).json(user)
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Email or password is incorrect'
       })
     }
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message })
+    return res.status(500).json({ message: (error as Error).message })
   }
 }
 

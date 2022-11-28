@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../libs/session'
-import { IUser } from './../../models/user.model'
+import type { IUser } from './../../models/user.model'
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user as IUser
@@ -17,6 +17,8 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse) {
       isLoggedIn: false,
     })
   }
+
+  return res;
 }
 
 export default withIronSessionApiRoute(userRoute, sessionOptions)
