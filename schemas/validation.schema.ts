@@ -21,7 +21,6 @@ export const validateLoginForm = {
   resolver: yupResolver(loginSchema)
 }
 
-
 const userUpdateSchema = object().shape({
   name: string().required().min(3).max(120),
   email: string().email().min(3).max(120),

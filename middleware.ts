@@ -18,12 +18,14 @@ export const middleware = async (req: NextRequest) => {
   if (req.nextUrl.pathname.startsWith('/api')) {
     // todo: handle the response middleware routes API
   }
+
+  return res
 }
 
 // Matcher: allows you to filter Middleware to run on specific paths.
 export const config = {
   matcher: [
-    '/users/:path*', 
+    '/users/:path*'
     // '/profile' // Currently, we use getServerSideProps inside component, let's see to explain
   ]
 }

@@ -1,24 +1,19 @@
-import { useRouter } from "next/router";
-import type { ReactElement} from "react";
-import React, { Children, useEffect, useState } from "react";
-import type { LinkProps } from 'next/link';
+import { useRouter } from 'next/router'
+import type { ReactElement } from 'react'
+import React, { Children, useEffect, useState } from 'react'
+import type { LinkProps } from 'next/link'
 import Link from 'next/link'
 import './Button.module.scss'
 
 type ActiveLinkProps = LinkProps & {
-  children: ReactElement;
-  activeClassName?: string;
+  children: ReactElement
+  activeClassName?: string
 }
 
-const NextLink = ({
-  children,
-  activeClassName,
-  ...props
-}: ActiveLinkProps) => {
-
-  const { asPath, isReady } = useRouter();
-  const child = Children.only(children);
-  const childClassName = child.props.className || "";
+const NextLink = ({ children, activeClassName, ...props }: ActiveLinkProps) => {
+  const { asPath, isReady } = useRouter()
+  const child = Children.only(children)
+  const childClassName = child.props.className || ''
   const [className, setClassName] = useState(childClassName)
   /*
     https://nextjs.org/docs/api-reference/next/link
@@ -50,12 +45,11 @@ const NextLink = ({
       const newClassName =
         linkPathName === active
           ? `${childClassName} ${activeClassName}`.trim()
-          : childClassName;
+          : childClassName
       if (newClassName !== className) {
         setClassName(newClassName)
       }
     }
-
   }, [
     isReady,
     asPath,
@@ -74,7 +68,6 @@ const NextLink = ({
       })}
     </Link>
   )
-
 }
 
-export default NextLink;
+export default NextLink

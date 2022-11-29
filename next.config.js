@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   pageExtensions: ['tsx', 'ts'],
   eslint: {
-    dirs: ['page'],
+    dirs: ['page']
   }
 }
 

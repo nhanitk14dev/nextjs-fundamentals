@@ -14,11 +14,11 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse) {
     })
   } else {
     res.json({
-      isLoggedIn: false,
+      isLoggedIn: false
     })
   }
 
-  return res;
+  return res
 }
 
 export default withIronSessionApiRoute(userRoute, sessionOptions)

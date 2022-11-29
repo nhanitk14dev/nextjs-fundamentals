@@ -5,7 +5,6 @@ import type { IUser } from '../../models/user.model'
 import { userRepository } from './../../libs/user-repository'
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
-
   try {
     const user = userRepository.checkAuth(req.body) as IUser
     // get user from database then:
