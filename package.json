@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "backend": "cd ./backend && json-server --port 8080 --routes routes.json --watch db.json"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",

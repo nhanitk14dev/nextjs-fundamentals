@@ -4,7 +4,8 @@
 
 import * as fs from 'fs'
 import database from './db.json'
-import type { LoginTypes } from './../models/user.model'
+import { UserPropDefault } from './../models/user.model'
+import type { IUser, LoginTypes } from './../models/user.model'
 
 export const userRepository = {
   getAll: () => database.users,
@@ -24,34 +25,41 @@ function findUserByEmail(email: string) {
   return false
 }
 
-function checkAuth(form: LoginTypes) {
+// Hybrid Types: https://www.typescriptlang.org/docs/handbook/interfaces.html
+function checkAuth(form: LoginTypes): IUser {
   const { email, password } = form
   const data = userRepository.getAll()
-  if (Array.isArray(data)) {
-    const user = data.filter(
-      i => i.email === email.trim() && i.password === password.trim()
-    )
-    return Array.isArray(user) ? user.shift() : user
+  if (data.length) {
+    const user = data
+      .filter(i => i.email === email.trim() && i.password === password.trim())
+      .shift() as IUser
+
+    if (user) {
+      user.isLoggedIn = true
+      return user
+    }
   }
-  return {}
+
+  return UserPropDefault
 }
 
-async function createUser(user: any) {
-  if (user) {
-    const users = userRepository.getAll()
+async function createUser(user = UserPropDefault as IUser) {
+  const users = userRepository.getAll()
+  if (user && users.length) {
+    const data = users as IUser[]
+
     // Generate new user
-    user.id = users.length
-      ? Math.max(...users.map(x => x.id)) + 1
-      : (1 as number)
-    users.push(user)
-    userRepository.saveData(users)
+    user.id = Math.max(...users.map(x => x.id)) + 1 || (1 as number)
+    user.name = user.name || ''
+    data.push(user)
+    userRepository.saveData(data)
     return user
   }
 
   return false
 }
 
-function saveData(users = [] as any) {
+function saveData(users: IUser[]) {
   const newRepo = JSON.stringify({ users: users })
   try {
     fs.writeFileSync('libs/db.json', newRepo)

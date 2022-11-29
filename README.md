@@ -48,6 +48,8 @@ For new projects, you can build your entire API with API Routes. If you have an 
 - Config [`Environment Variables`](https://nextjs.org/docs/basic-features/environment-variables)
 
 - Middleware Authentication with [`Iron session`](https://www.npmjs.com/package/iron-session#nextjs-middlewares-usage). For code demo: [`Link`](https://codesandbox.io/s/plc9c). Middleware [`How to create a generic protected route in Next.js`](https://shipsaas.com/blog/create-protected-route-nextjs) or [`Use Next.js Middleware`](https://www.ctnicholas.dev/articles/how-to-use-nextjs-middleware)
+- [`Nullish coalescing operator (??)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)
+- [`Push an object to an Array in TypeScript`](https://bobbyhadz.com/blog/typescript-push-object-to-array)
 
 ## FAQ
 

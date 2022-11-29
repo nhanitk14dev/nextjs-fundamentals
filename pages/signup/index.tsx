@@ -18,7 +18,10 @@ const SignUp = () => {
     return await axios
       .post('/api/register', form)
       .then(res => {
-        if (res.data) {
+        const data = res.data
+        if (data?.message) {
+          alert(data.message)
+        } else {
           alert('Add new user successfully')
           router.push('/login')
         }
