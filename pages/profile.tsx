@@ -1,12 +1,13 @@
 import { withIronSessionSsr } from 'iron-session/next'
 import type { InferGetServerSidePropsType } from 'next'
 import { sessionOptions } from '../libs/session'
-import type { IUser } from '../models'
 import { UserPropDefault } from '../models'
 import styles from '../components/Form.module.scss'
 import btnStyles from '../components/Button.module.scss'
 import { useForm } from 'react-hook-form'
 import { validateUserUpdate } from '../schemas'
+import type { UserUpdateFormTypes } from './../models/user.model'
+import axios from 'axios'
 
 export default function Profile({
   user
@@ -15,10 +16,23 @@ export default function Profile({
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<IUser>(validateUserUpdate)
+  } = useForm<UserUpdateFormTypes>(validateUserUpdate)
 
-  function onSubmit() {
-    alert('todo later')
+  async function onSubmit(form: UserUpdateFormTypes) {
+
+    // Send only data necessary when pass validation
+    delete form.passwordConfirmation
+
+    return await axios
+      .post('/api/profile', form)
+      .then(res => {
+        if (res.data?.message) {
+          alert(res.data.message)
+        } else {
+          alert('Update profile successfully!')
+        }
+      })
+      .catch(error => alert(error.message))
   }
 
   return (
@@ -71,15 +85,15 @@ export default function Profile({
             <p className="invalid-feedback">{errors.password?.message}</p>
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="re-password">Confirm Password</label>
+            <label htmlFor="re-password">Password Confirmation</label>
             <input
               type="password"
-              id="confirm-password"
-              placeholder="Enter confirm password"
-              {...register('confirmPassword')}
+              id="password-confirmation"
+              placeholder="Enter password confirmation"
+              {...register('passwordConfirmation')}
             />
             <p className="invalid-feedback">
-              {errors.confirmPassword?.message}
+              {errors.passwordConfirmation?.message}
             </p>
           </div>
           <input type="submit" value="Submit" className={btnStyles.primary} />
@@ -90,29 +104,18 @@ export default function Profile({
 }
 
 /*
-  We just use getServerSideProps to check authentication for demo on Profile page.
-  In latest version of Next, use middleware.ts to protect route)
- */
+  We just use getServerSideProps to get authenticated user
+  In latest version of Next, we're using middleware.ts to protect route
+  https://github.com/vvo/iron-session
+ */ 
 export const getServerSideProps = withIronSessionSsr(async function ({
-  req,
-  res
+  req
 }) {
   const userSession = req.session.user
-
-  if (!userSession) {
-    res.setHeader('location', '/login')
-    res.statusCode = 302
-    res.end()
-
-    return {
-      props: {
-        user: UserPropDefault as IUser
-      }
-    }
-  }
-
   return {
-    props: { user: userSession }
+    props: {
+      user: userSession || UserPropDefault
+    }
   }
 },
 sessionOptions)

@@ -5,13 +5,18 @@
 import * as fs from 'fs'
 import database from './db.json'
 import { UserPropDefault } from './../models/user.model'
-import type { IUser, LoginTypes } from './../models/user.model'
+import type {
+  IUser,
+  LoginTypes,
+  UserUpdateFormTypes
+} from './../models/user.model'
 
 export const userRepository = {
-  getAll: () => database.users,
+  getAll: () => database.users, // array users list
   findUserByEmail,
   checkAuth,
   createUser,
+  updateUser,
   saveData
 }
 
@@ -21,7 +26,6 @@ function findUserByEmail(email: string) {
     const user = data.filter(i => i.email === email)
     return Array.isArray(user) ? user.shift() : user
   }
-
   return false
 }
 
@@ -56,6 +60,24 @@ async function createUser(user = UserPropDefault as IUser) {
     return user
   }
 
+  return false
+}
+
+async function updateUser(email: string, form: UserUpdateFormTypes) {
+  const data = userRepository.getAll()
+  const users = data as IUser[]
+
+  if (users.length) {
+    const newData = users.map(user => {
+      // Check current user
+      if (user.email === email) {
+        user = { ...user, ...form }
+      }
+      return user
+    })
+    saveData(newData)
+    return newData.filter(i => i.email === email).shift() // get user object in data array
+  }
   return false
 }
 

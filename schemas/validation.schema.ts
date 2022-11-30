@@ -1,4 +1,4 @@
-import { object, string } from 'yup'
+import { object, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // form validate rule
@@ -25,7 +25,9 @@ const userUpdateSchema = object().shape({
   name: string().required().min(3).max(120),
   email: string().email().min(3).max(120),
   password: string().required().min(6).max(120),
-  confirmPassword: string().required().min(6).max(120)
+  passwordConfirmation: string()
+    .required('Password confirmation is required.')
+    .oneOf([ref('password')], 'Your passwords do not match.')
 })
 
 export const validateUserUpdate = {

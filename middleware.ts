@@ -24,8 +24,5 @@ export const middleware = async (req: NextRequest) => {
 
 // Matcher: allows you to filter Middleware to run on specific paths.
 export const config = {
-  matcher: [
-    '/users/:path*'
-    // '/profile' // Currently, we use getServerSideProps inside component, let's see to explain
-  ]
+  matcher: ['/users/:path*', '/profile']
 }
