@@ -1,9 +1,14 @@
+/* 
+  https://nextjs.org/docs/basic-features/built-in-css-support
+  This file use common className like a file global css
+*/
+
 .container {
   padding: 0 2rem;
 }
 
 .main {
-  min-height: 100vh;
+  min-height: calc(100vh - 220px);
   padding: 4rem 0;
   flex: 1;
   display: flex;
