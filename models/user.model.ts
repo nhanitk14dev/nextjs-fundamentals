@@ -32,5 +32,6 @@ export type LoginTypes = {
 
 export type UserResponseTypes = {
   user?: IUser
+  users?: IUser[]
   message?: string
 }

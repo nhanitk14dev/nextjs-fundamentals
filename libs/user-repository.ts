@@ -12,12 +12,16 @@ import type {
 } from './../models/user.model'
 
 export const userRepository = {
-  getAll: () => database.users, // array users list
+  getAll,
   findUserByEmail,
   checkAuth,
   createUser,
   updateUser,
   saveData
+}
+
+function getAll() {
+  return database.users || []
 }
 
 function findUserByEmail(email: string) {

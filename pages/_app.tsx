@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import commonStyles from '../styles/Common.module.css'
+import '../styles/common.css'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import NavBar from '../components/nav/NavBar'
@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className="app">
       <Header />
       <NavBar />
-      <main className={commonStyles.main}>
+      <main className="main">
         <Component {...pageProps} />
       </main>
       <Footer />
