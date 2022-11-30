@@ -1,0 +1,21 @@
+.formContainer {
+  min-height: 300px;
+  padding: 2rem;
+  background-color: bisque;
+  margin: 20px 0;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 600;
+    margin-right: 10px;
+  }
+
+  input {
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}

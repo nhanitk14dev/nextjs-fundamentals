@@ -1,0 +1,24 @@
+.main {
+  color: white;
+  background-color: red;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  min-width: 80px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(173, 24, 24);
+  }
+}
+
+.primary {
+  @extend .main;
+  background-color: blue;
+}
+
+.success {
+  @extend .main;
+  background-color: green;
+}
