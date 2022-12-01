@@ -5,13 +5,18 @@
 import * as fs from 'fs'
 import database from './db.json'
 import { UserPropDefault } from './../models/user.model'
-import type { IUser, LoginTypes } from './../models/user.model'
+import type {
+  IUser,
+  LoginTypes,
+  UserUpdateFormTypes
+} from './../models/user.model'
 
 export const userRepository = {
-  getAll: () => database.users,
+  getAll: () => database.users as IUser[],
   findUserByEmail,
   checkAuth,
   createUser,
+  updateUser,
   saveData
 }
 
@@ -21,7 +26,6 @@ function findUserByEmail(email: string) {
     const user = data.filter(i => i.email === email)
     return Array.isArray(user) ? user.shift() : user
   }
-
   return false
 }
 
@@ -46,16 +50,31 @@ function checkAuth(form: LoginTypes): IUser {
 async function createUser(user = UserPropDefault as IUser) {
   const users = userRepository.getAll()
   if (user && users.length) {
-    const data = users as IUser[]
-
     // Generate new user
-    user.id = Math.max(...users.map(x => x.id)) + 1 || (1 as number)
+    user.id = Math.max(...users.map(x => x.id as number)) + 1 || (1 as number)
     user.name = user.name || ''
-    data.push(user)
-    userRepository.saveData(data)
+    users.push(user)
+    userRepository.saveData(users)
     return user
   }
 
+  return false
+}
+
+async function updateUser(email: string, form: UserUpdateFormTypes) {
+  const users = userRepository.getAll()
+
+  if (users.length) {
+    const newData = users.map(user => {
+      // Check current user
+      if (user.email === email) {
+        user = { ...user, ...form }
+      }
+      return user
+    })
+    saveData(newData)
+    return newData.filter(i => i.email === email).shift() // get user object in data array
+  }
   return false
 }
 

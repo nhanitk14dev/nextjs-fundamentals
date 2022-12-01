@@ -4,8 +4,6 @@ export interface IUser {
   password: string
   name?: string
   address?: string
-  token?: string
-  confirmPassword?: string
   isLoggedIn?: boolean
 }
 
@@ -13,7 +11,6 @@ export const UserPropDefault: IUser = {
   email: '',
   name: '',
   password: '',
-  token: '',
   isLoggedIn: false
 }
 
@@ -21,6 +18,11 @@ export type SignUpFormTypes = {
   name: string
   email: string
   password: string
+}
+
+export type UserUpdateFormTypes = SignUpFormTypes & {
+  passwordConfirmation?: string
+  address?: string
 }
 
 export type LoginTypes = {

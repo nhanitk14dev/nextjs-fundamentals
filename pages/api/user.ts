@@ -5,7 +5,6 @@ import type { IUser } from './../../models/user.model'
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user as IUser
-  console.log(user)
 
   if (user) {
     res.json({
