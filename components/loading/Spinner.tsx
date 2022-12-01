@@ -4,10 +4,8 @@
   Styled: https://styled-components.com/docs/api#typescript
 */
 
-// import styles from './Spinner.module.scss'
+import styles from './Spinner.module.scss'
 
-const Spinner = () => {
-  return <div className="spinner"></div>
+export default function Spinner() {
+  return <div className={styles.spinner}></div>
 }
-
-export default Spinner

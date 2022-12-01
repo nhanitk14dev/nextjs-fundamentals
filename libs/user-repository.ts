@@ -14,6 +14,7 @@ import type {
 export const userRepository = {
   getAll,
   findUserByEmail,
+  findUserById,
   checkAuth,
   createUser,
   updateUser,
@@ -21,7 +22,16 @@ export const userRepository = {
 }
 
 function getAll() {
-  return database.users || []
+  return database.users as IUser[]
+}
+
+function findUserById(id: string) {
+  const data = userRepository.getAll()
+  if (Array.isArray(data)) {
+    const user = data.filter(i => i.id === parseInt(id))
+    return Array.isArray(user) ? user.shift() : user
+  }
+  return false
 }
 
 function findUserByEmail(email: string) {
@@ -54,13 +64,11 @@ function checkAuth(form: LoginTypes): IUser {
 async function createUser(user = UserPropDefault as IUser) {
   const users = userRepository.getAll()
   if (user && users.length) {
-    const data = users as IUser[]
-
     // Generate new user
-    user.id = Math.max(...users.map(x => x.id)) + 1 || (1 as number)
+    user.id = Math.max(...users.map(x => x.id as number)) + 1 || (1 as number)
     user.name = user.name || ''
-    data.push(user)
-    userRepository.saveData(data)
+    users.push(user)
+    userRepository.saveData(users)
     return user
   }
 
@@ -68,8 +76,7 @@ async function createUser(user = UserPropDefault as IUser) {
 }
 
 async function updateUser(email: string, form: UserUpdateFormTypes) {
-  const data = userRepository.getAll()
-  const users = data as IUser[]
+  const users = userRepository.getAll()
 
   if (users.length) {
     const newData = users.map(user => {

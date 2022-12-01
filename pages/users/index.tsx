@@ -4,6 +4,7 @@ import tableStyles from '../../components/Table.module.scss'
 import Pagination from '../../components/pagination'
 import { useState, useMemo } from 'react'
 import { PAGE_DEFAULT, PER_PAGE } from '../../libs/use-pagination'
+import Link from 'next/link'
 
 type UserListProps = {
   users: IUser[]
@@ -34,12 +35,12 @@ export default function UserComponent({ users }: UserListProps) {
           </thead>
           <tbody>
             {dataTable.length > 0 &&
-              dataTable.map(i => (
-                <tr key={i.id}>
-                  <td>{i.id}</td>
-                  <td>{i.email}</td>
-                  <td>{i.name}</td>
-                  <td>{i.address}</td>
+              dataTable.map(user => (
+                <tr key={user.id}>
+                  <td><Link href={`/users/${user.id}`}>{user.id}</Link></td>
+                  <td><Link href={`/users/${user.id}`}>{user.email}</Link></td>
+                  <td>{user.name}</td>
+                  <td>{user.address}</td>
                 </tr>
               ))}
           </tbody>
