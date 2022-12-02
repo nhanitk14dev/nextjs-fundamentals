@@ -13,11 +13,21 @@ import type {
 
 export const userRepository = {
   getAll: () => database.users as IUser[],
+  findUserById,
   findUserByEmail,
   checkAuth,
   createUser,
   updateUser,
   saveData
+}
+
+function findUserById(id: string) {
+  const data = userRepository.getAll()
+  if (Array.isArray(data)) {
+    const user = data.filter(i => i.id === parseInt(id))
+    return Array.isArray(user) ? user.shift() : user
+  }
+  return false
 }
 
 function findUserByEmail(email: string) {

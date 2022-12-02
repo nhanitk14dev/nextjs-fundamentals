@@ -19,7 +19,6 @@ export default function Profile({
   } = useForm<UserUpdateFormTypes>(validateUserUpdate)
 
   async function onSubmit(form: UserUpdateFormTypes) {
-
     // Send only data necessary when pass validation
     delete form.passwordConfirmation
 
@@ -107,15 +106,12 @@ export default function Profile({
   We just use getServerSideProps to get authenticated user
   In latest version of Next, we're using middleware.ts to protect route
   https://github.com/vvo/iron-session
- */ 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  req
-}) {
+ */
+export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
   const userSession = req.session.user
   return {
     props: {
       user: userSession || UserPropDefault
     }
   }
-},
-sessionOptions)
+}, sessionOptions)
