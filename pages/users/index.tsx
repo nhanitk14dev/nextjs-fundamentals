@@ -5,6 +5,7 @@ import Pagination from '../../components/pagination'
 import { useState, useMemo } from 'react'
 import { PAGE_DEFAULT, PER_PAGE } from '../../libs/use-pagination'
 import Link from 'next/link'
+import { userRepository } from './../../libs/user-repository';
 
 type UserListProps = {
   users: IUser[]
@@ -68,12 +69,10 @@ export default function UserComponent({ users }: UserListProps) {
 // direct database queries
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`)
-  const data = await res.json()
-
+  const users = userRepository.getAll()
   return {
     props: {
-      users: data.users
+      users
     }
   }
 }

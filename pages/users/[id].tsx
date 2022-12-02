@@ -1,14 +1,15 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Spinner from '../../components/loading/Spinner'
-import type { IUser } from './../../models/user.model'
-import axios from 'axios'
+import type { IUser} from './../../models/user.model';
+import { UserPropDefault } from './../../models/user.model'
+import { userRepository } from './../../libs/user-repository';
 
 type Props = {
   user: IUser
 }
 
-export default function UserDetail({ user }: Props) {
+export default function UserDetail({ user = UserPropDefault }: Props) {
   const router = useRouter()
 
   // If the page is not yet generated, this will be displayed
@@ -49,10 +50,7 @@ export default function UserDetail({ user }: Props) {
 // Generate all id in list. Example: paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const users = await axios
-    .get(`${process.env.NEXT_PUBLIC_API_URL}/users`)
-    .then(res => res.data?.users)
-
+  const users = userRepository.getAll()
   return {
     paths: users.map((user: IUser) => {
       return {
@@ -69,11 +67,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 // It won't be called on client-side, so you can even do
 // direct database queries.
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = params?.id
-  const user = await axios
-    .get(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`)
-    .then(res => res.data?.user)
-
+  const id = params?.id as string
+  const user = userRepository.findUserById(id)
   return {
     props: {
       user: user
