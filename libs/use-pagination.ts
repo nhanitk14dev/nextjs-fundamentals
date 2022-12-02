@@ -32,12 +32,15 @@ const range = (start: number, end: number) => {
   return Array.from({ length }, (_, idx) => idx + start)
 }
 
-export const usePagination = ({
-  totalCount,
-  pageSize,
-  siblingCount = 1,
-  currentPage
-}: IPagination) => {
+// Get numbers of length ex: 1,2,3...10
+export const usePagination = (props: IPagination): number[] => {
+  const {
+    totalCount = PagingPropDefault.totalCount,
+    pageSize = PagingPropDefault.pageSize,
+    siblingCount = PagingPropDefault.siblingCount,
+    currentPage = PagingPropDefault.currentPage
+  } = props
+
   const paginationRange = useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize)
 
@@ -92,5 +95,5 @@ export const usePagination = ({
     }
   }, [totalCount, pageSize, siblingCount, currentPage])
 
-  return paginationRange
+  return paginationRange as number[]
 }
