@@ -27,6 +27,27 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Features App
+  - Login/SignUp page [Account Test: email: test@gmail.com, pass: 1-6]
+  - User List with pagination
+  - Detail page
+
+## Requirements
+ 
+- Pages
+- Layouts, [Nested layouts](https://nextjs.org/docs/basic-features/layouts#per-page-layouts)
+- Styling, module scss
+- Assets Optimization [ Image, Font, Script ]
+- Pre-rendering
+  - SSG
+  - SSR
+- Data Fetching
+- Routing
+  - Index Routes
+  - Nested Routes
+  - Dynamic Routes
+- API Routes
+- Middleware
+- Authentication
 
 ## Learn More
 
@@ -51,9 +72,17 @@ For new projects, you can build your entire API with API Routes. If you have an 
 - [`Nullish coalescing operator (??)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)
 - [`Push an object to an Array in TypeScript`](https://bobbyhadz.com/blog/typescript-push-object-to-array)
 
+- [`Nested dynamic layouts in Next.js apps`](https://reacttricks.com/nested-dynamic-layouts-in-next-apps/)
 ## FAQ
 
 1. Why we use [`SWR`](https://swr.vercel.app/docs/getting-started)?:
 
 - Traditionally, we fetch data once using useEffect in the top level component, and pass it to child components via props. Usually, we need to keep all the data fetching in the top level component and add props to every component deep down the tree. The code will become harder to maintain if we add more data dependency to the page.
 - SWR solves the above problem. With the useUser hook we just created, the code can be refactored, all components are independent to each other, Fast, lightweight and reusable data fetching, Built-in cache and request deduplication, ...
+
+2. How to enable hover with TypeScript in Visual Studio Code?
+
+```
+Go to extensions, typing @builtin and enabling my language extension "TypeScript and JavaScript Language Features"
+
+```

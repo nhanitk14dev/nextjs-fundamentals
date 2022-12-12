@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import btnStyles from '../../components/Button.module.scss'
 import type { SignUpFormTypes } from '../../models'
 import axios from 'axios'
+import AuthLayout from './../../components/layouts/AuthLayout'
 
 const SignUp = () => {
   const {
@@ -70,5 +71,7 @@ const SignUp = () => {
     </>
   )
 }
+
+SignUp.getLayout = AuthLayout
 
 export default SignUp
