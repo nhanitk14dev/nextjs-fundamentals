@@ -1,19 +1,21 @@
 import '../styles/globals.css'
 import '../styles/common.css'
-import Header from '../components/header/Header'
-import Footer from '../components/footer/Footer'
-import NavBar from '../components/nav/NavBar'
 import type { AppProps } from 'next/app'
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
+import DefaultLayout from './../components/layouts/DefaultLayout'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <div className="app">
-      <Header />
-      <NavBar />
-      <main className="main">
-        <Component {...pageProps} />
-      </main>
-      <Footer />
-    </div>
-  )
+// nested layout
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? DefaultLayout
+
+  return getLayout(<Component {...pageProps} />)
 }

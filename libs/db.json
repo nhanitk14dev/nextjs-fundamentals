@@ -3,9 +3,9 @@
     {
       "id": 1,
       "name": "testABC",
-      "email": "test@mail.com",
+      "email": "test@gmail.com",
       "address": "South testABC",
-      "password": "123456789"
+      "password": "123456"
     },
     {
       "id": 2,

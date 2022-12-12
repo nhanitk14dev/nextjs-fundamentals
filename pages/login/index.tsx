@@ -6,8 +6,10 @@ import btnStyles from '../../components/Button.module.scss'
 import { useRouter } from 'next/router'
 import type { LoginTypes } from '../../models'
 import axios from 'axios'
+import AuthLayout from '../../components/layouts/AuthLayout'
+import type { NextPageWithLayout } from '../_app'
 
-const Login = () => {
+const Login: NextPageWithLayout = () => {
   const router = useRouter()
   const {
     register,
@@ -65,5 +67,7 @@ const Login = () => {
     </>
   )
 }
+
+Login.getLayout = AuthLayout
 
 export default Login
