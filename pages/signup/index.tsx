@@ -6,8 +6,9 @@ import btnStyles from '../../components/Button.module.scss'
 import type { SignUpFormTypes } from '../../models'
 import axios from 'axios'
 import AuthLayout from './../../components/layouts/AuthLayout'
+import type { NextPageWithLayout } from '../_app'
 
-const SignUp = () => {
+const SignUp: NextPageWithLayout = () => {
   const {
     register,
     handleSubmit,
