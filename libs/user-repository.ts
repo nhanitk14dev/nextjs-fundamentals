@@ -3,7 +3,6 @@
 */
 
 import * as fs from 'fs'
-import database from './db.json'
 import { UserPropDefault } from './../models/user.model'
 import type {
   IUser,
@@ -12,13 +11,23 @@ import type {
 } from './../models/user.model'
 
 export const userRepository = {
-  getAll: () => database.users as IUser[],
+  getAll, 
   findUserById,
   findUserByEmail,
   checkAuth,
   createUser,
   updateUser,
   saveData
+}
+
+function getAll() {
+  try {
+    const source = fs.readFileSync('libs/db.json', 'utf8');
+    const data = JSON.parse(source)
+    return data.users as IUser[]
+  } catch (error) {
+    throw error as Error
+  }
 }
 
 function findUserById(id: string) {
