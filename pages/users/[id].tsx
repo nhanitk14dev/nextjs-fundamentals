@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps } from 'next'
+import type {GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Spinner from '../../components/loading/Spinner'
 import type { IUser} from './../../models/user.model';
@@ -44,29 +44,7 @@ export default function UserDetail({ user = UserPropDefault }: Props) {
   )
 }
 
-// Get the paths we want to pre-render based on users
-// We'll pre-render only these paths at build time.
-// { fallback: false } means not match any id, redirect to 404
-// Generate all id in list. Example: paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const users = userRepository.getAll()
-  return {
-    paths: users.map((user: IUser) => {
-      return {
-        params: {
-          id: user.id?.toString()
-        }
-      }
-    }),
-    fallback: false
-  }
-}
-
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries.
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetStaticProps = async ({ params }) => {
   const id = params?.id as string
   const user = userRepository.findUserById(id)
   return {

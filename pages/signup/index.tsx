@@ -7,6 +7,9 @@ import type { SignUpFormTypes } from '../../models'
 import axios from 'axios'
 import AuthLayout from './../../components/layouts/AuthLayout'
 import type { NextPageWithLayout } from '../_app'
+import type { GetServerSideProps } from 'next'
+import { withIronSessionSsr } from 'iron-session/next'
+import { sessionOptions } from '../../libs/session'
 
 const SignUp: NextPageWithLayout = () => {
   const {
@@ -76,3 +79,24 @@ const SignUp: NextPageWithLayout = () => {
 SignUp.getLayout = AuthLayout
 
 export default SignUp
+
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user
+
+    // Redirect to home if already logged in
+    if (user) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+
+    return {
+      props: {}
+    }
+  },
+  sessionOptions
+)
