@@ -1,4 +1,4 @@
-import type { GetStaticProps } from 'next'
+import type { GetServerSideProps } from 'next'
 import type { IUser } from './../../models/user.model'
 import tableStyles from '../../components/Table.module.scss'
 import Pagination from '../../components/pagination'
@@ -23,9 +23,10 @@ export default function UserComponent({ users }: UserListProps) {
 
   return (
     <div className="container">
-      <div className={tableStyles.table}>
+      <div>
         <h1>Users List</h1>
-        <table>
+        <Link href="/users/create" className={tableStyles.headLink}>Add New</Link>
+        <table className={tableStyles.table}>
           <thead>
             <tr>
               <th>#No</th>
@@ -68,7 +69,7 @@ export default function UserComponent({ users }: UserListProps) {
 // It won't be called on client-side, so you can even do
 // direct database queries
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const users = userRepository.getAll()
   return {
     props: {
