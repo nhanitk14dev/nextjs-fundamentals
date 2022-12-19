@@ -1,9 +1,11 @@
-import type {GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Spinner from '../../components/loading/Spinner'
-import type { IUser} from './../../models/user.model';
+import type { IUser } from './../../models/user.model'
 import { UserPropDefault } from './../../models/user.model'
-import { userRepository } from './../../libs/user-repository';
+import { userRepository } from './../../libs/user-repository'
+import NextLink from '../../components/Link'
+import btnStyles from '../../components/Button.module.scss'
 
 type Props = {
   user: IUser
@@ -22,24 +24,30 @@ export default function UserDetail({ user = UserPropDefault }: Props) {
   return (
     <div className="container">
       <h1>User Detail</h1>
-      <div>
-        <span>
-          <strong>User Name:</strong>
-        </span>
-        <span>{user.name}</span>
+      <div className="card">
+        <div>
+          <span>
+            <strong>User Name:</strong>
+          </span>
+          <span>{user.name}</span>
+        </div>
+        <div>
+          <span>
+            <strong>Address:</strong>
+          </span>
+          <span>{user.address}</span>
+        </div>
+        <div>
+          <span>
+            <strong>Email:</strong>
+          </span>
+          <span>{user.email}</span>
+        </div>
       </div>
-      <div>
-        <span>
-          <strong>Address:</strong>
-        </span>
-        <span>{user.address}</span>
-      </div>
-      <div>
-        <span>
-          <strong>Email:</strong>
-        </span>
-        <span>{user.email}</span>
-      </div>
+
+      <NextLink href="/users">
+        <a className={btnStyles.primary}>Back To List</a>
+      </NextLink>
     </div>
   )
 }

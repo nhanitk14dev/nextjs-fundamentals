@@ -18,6 +18,11 @@ const NavBar = () => {
             </Link>
           </li>
           <li>
+            <Link href="/posts" activeClassName="active">
+              <a className={styles.navLink}>Posts</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/users" as="/users" activeClassName="active">
               <a className={styles.navLink}>Users List</a>
             </Link>
