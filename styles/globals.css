@@ -25,6 +25,7 @@ a {
   }
 }
 
-.invalid-feedback {
+.invalid-feedback,
+.active {
   color: red;
 }

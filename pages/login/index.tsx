@@ -8,6 +8,9 @@ import type { LoginTypes } from '../../models'
 import axios from 'axios'
 import AuthLayout from '../../components/layouts/AuthLayout'
 import type { NextPageWithLayout } from '../_app'
+import type { GetServerSideProps } from 'next'
+import { withIronSessionSsr } from 'iron-session/next'
+import { sessionOptions } from './../../libs/session'
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter()
@@ -71,3 +74,26 @@ const Login: NextPageWithLayout = () => {
 Login.getLayout = AuthLayout
 
 export default Login
+
+// https://www.npmjs.com/package/iron-session
+// https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#context-parameter
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user
+
+    // Redirect to home if already logged in
+    if (user) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+
+    return {
+      props: {}
+    }
+  },
+  sessionOptions
+)

@@ -1,9 +1,11 @@
-import type { GetStaticPaths, GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Spinner from '../../components/loading/Spinner'
-import type { IUser} from './../../models/user.model';
+import type { IUser } from './../../models/user.model'
 import { UserPropDefault } from './../../models/user.model'
-import { userRepository } from './../../libs/user-repository';
+import { userRepository } from './../../libs/user-repository'
+import NextLink from '../../components/Link'
+import btnStyles from '../../components/Button.module.scss'
 
 type Props = {
   user: IUser
@@ -22,51 +24,35 @@ export default function UserDetail({ user = UserPropDefault }: Props) {
   return (
     <div className="container">
       <h1>User Detail</h1>
-      <div>
-        <span>
-          <strong>User Name:</strong>
-        </span>
-        <span>{user.name}</span>
+      <div className="card">
+        <div>
+          <span>
+            <strong>User Name:</strong>
+          </span>
+          <span>{user.name}</span>
+        </div>
+        <div>
+          <span>
+            <strong>Address:</strong>
+          </span>
+          <span>{user.address}</span>
+        </div>
+        <div>
+          <span>
+            <strong>Email:</strong>
+          </span>
+          <span>{user.email}</span>
+        </div>
       </div>
-      <div>
-        <span>
-          <strong>Address:</strong>
-        </span>
-        <span>{user.address}</span>
-      </div>
-      <div>
-        <span>
-          <strong>Email:</strong>
-        </span>
-        <span>{user.email}</span>
-      </div>
+
+      <NextLink href="/users">
+        <a className={btnStyles.primary}>Back To List</a>
+      </NextLink>
     </div>
   )
 }
 
-// Get the paths we want to pre-render based on users
-// We'll pre-render only these paths at build time.
-// { fallback: false } means not match any id, redirect to 404
-// Generate all id in list. Example: paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const users = userRepository.getAll()
-  return {
-    paths: users.map((user: IUser) => {
-      return {
-        params: {
-          id: user.id?.toString()
-        }
-      }
-    }),
-    fallback: false
-  }
-}
-
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries.
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetStaticProps = async ({ params }) => {
   const id = params?.id as string
   const user = userRepository.findUserById(id)
   return {
